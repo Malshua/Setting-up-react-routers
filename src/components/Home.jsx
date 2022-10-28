@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { fetchUsers } from "../apis";
 import Users from "./Users";
 import Pagination from "./Pagination";
+import "./Home.css";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
@@ -12,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     const getUsers = async () => {
       setLoading(true);
-      const data = await fetchUsers(20);
+      const data = await fetchUsers(50);
       setUsers(data.results);
       setLoading(false);
     };
@@ -32,21 +33,27 @@ export default function Home() {
   return (
     <div className="page">
       <h1>RANDOM USERS</h1>
-      <Users users={currentUsers} loading={loading} />
-      <button onClick={prevPage} disabled={currentPage <= 1}>
-        Prev Page
-      </button>
-      <Pagination
-        usersPerPage={usersPerPage}
-        totalUsers={users.length}
-        paginate={paginate}
-      />
-      <button
-        onClick={nextPage}
-        disabled={currentPage >= users.length / usersPerPage}
-      >
-        Next Page
-      </button>
+      <div className="users">
+        <Users users={currentUsers} loading={loading} />
+      </div>
+
+      <div className="paginate">
+        <button onClick={prevPage} disabled={currentPage <= 1} className="btn">
+          Prev Page
+        </button>
+        <Pagination
+          usersPerPage={usersPerPage}
+          totalUsers={users.length}
+          paginate={paginate}
+        />
+        <button
+          onClick={nextPage}
+          disabled={currentPage >= users.length / usersPerPage}
+          className="btn"
+        >
+          Next Page
+        </button>
+      </div>
     </div>
   );
 }
